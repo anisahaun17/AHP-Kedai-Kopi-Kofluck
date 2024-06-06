@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Alternative Scores</title>
+</head>
+<body>    
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('kriteria') }}">Manage Criteria</a></li>
+            <li><a href="{{ url_for('bobotkriteria') }}">Criteria Weights</a></li>
+            <li><a href="{{ url_for('alternatif') }}">Alternatives</a></li>
+            <li><a href="{{ url_for('bobotalternatif') }}">Alternative Scores</a></li>
+            <li><a href="{{ url_for('kalkulasi') }}">Kalkulasi</a></li>
+        </ul>
+    </nav>
+
+    <h1>Set Alternative Scores</h1>
+    
+    <form action="{{ url_for('set_alternative_scores') }}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Alternative</th>
+                    {% for criterion in criteria %}
+                        <th>{{ criterion.name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for alternative in alternatives %}
+                <tr>
+                    <td>{{ alternative.name }}</td>
+                    {% for criterion in criteria %}
+                        <td><input type="number" name="score_{{ alternative.id }}_{{ criterion.id }}" step="0.01"></td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

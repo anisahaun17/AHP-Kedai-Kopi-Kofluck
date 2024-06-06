@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Criteria Weights</title>
+</head>
+<body>    
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('kriteria') }}">Manage Criteria</a></li>
+            <li><a href="{{ url_for('bobotkriteria') }}">Criteria Weights</a></li>
+            <li><a href="{{ url_for('alternatif') }}">Alternatives</a></li>
+            <li><a href="{{ url_for('bobotalternatif') }}">Alternative Scores</a></li>
+            <li><a href="{{ url_for('kalkulasi') }}">Kalkulasi</a></li>
+        </ul>
+    </nav>
+
+    <h1>Set Criteria Weights</h1>
+    
+    <form action="{{ url_for('set_comparison') }}" method="post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Criteria</th>
+                    {% for criterion in criteria %}
+                        <th>{{ criterion.name }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(criteria|length) %}
+                <tr>
+                    <td>{{ criteria[i].name }}</td>
+                    {% for j in range(criteria|length) %}
+                        {% if i == j %}
+                            <td>1</td>
+                        {% else %}
+                            <td><input type="number" name="comparison_{{ i }}_{{ j }}" min="0.01" step="0.01"></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button type="submit">Calculate Weights</button>
+    </form>
+</body>
+</html>

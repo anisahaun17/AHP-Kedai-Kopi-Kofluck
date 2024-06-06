@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Criteria</title>
+</head>
+<body>    
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('kriteria') }}">Manage Criteria</a></li>
+            <li><a href="{{ url_for('bobotkriteria') }}">Criteria Weights</a></li>
+            <li><a href="{{ url_for('alternatif') }}">Alternatives</a></li>
+            <li><a href="{{ url_for('bobotalternatif') }}">Alternative Scores</a></li>
+            <li><a href="{{ url_for('kalkulasi') }}">Kalkulasi</a></li>
+        </ul>
+    </nav> 
+
+    <h1>Manage Criteria</h1>
+    
+    <h2>Add New Criteria</h2>
+    <form action="{{ url_for('add_criteria') }}" method="post">
+        <input type="text" name="name" placeholder="Criteria Name">
+        <button type="submit">Add</button>
+    </form>    
+
+    <h2>Existing Criteria</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for criterion in criteria %}
+            <tr>
+                <td>{{ criterion.id }}</td>
+                <td>{{ criterion.name }}</td>
+                <td>
+                    <form action="{{ url_for('delete_criteria', id=criterion.id) }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+</body>
+</html>

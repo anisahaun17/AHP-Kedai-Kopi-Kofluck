@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHP Calculation Results</title>
+</head>
+<body>    
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('kriteria') }}">Manage Criteria</a></li>
+            <li><a href="{{ url_for('bobotkriteria') }}">Criteria Weights</a></li>
+            <li><a href="{{ url_for('alternatif') }}">Alternatives</a></li>
+            <li><a href="{{ url_for('bobotalternatif') }}">Alternative Scores</a></li>
+            <li><a href="{{ url_for('kalkulasi') }}">Kalkulasi</a></li>
+        </ul>
+    </nav>
+
+    <h1>AHP Calculation Results</h1>
+
+    <h2>a. Criteria Priority Weights Calculation</h2>
+    <h3>a.1 Row Total Calculation</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Criteria</th>
+                <th>Sum</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for criterion in criteria %}
+            <tr>
+                <td>{{ criterion.name }}</td>
+                <td>{{ criterion.row_total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>a.2 Normalized Matrix & Priority Weights</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Criteria</th>
+                {% for criterion in criteria %}
+                <th>{{ criterion.name }}</th>
+                {% endfor %}
+                <th>Priority Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for criterion in criteria %}
+            <tr>
+                <td>{{ criterion.name }}</td>
+                {% for cell in criterion.normalized_matrix %}
+                <td>{{ cell }}</td>
+                {% endfor %}
+                <td>{{ criterion.weight }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>a.3 Consistency Ratio</h3>
+    <p>Consistency Ratio: {{ consistency_ratio }}</p>
+
+    <h2>b. Alternative Priority Weights Calculation</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Alternative</th>
+                {% for criterion in criteria %}
+                <th>{{ criterion.name }}</th>
+                {% endfor %}
+                <th>Priority Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alternative in alternatives %}
+            <tr>
+                <td>{{ alternative.name }}</td>
+                {% for criterion in criteria %}
+                <td>{{ alternative.scores[criterion.id] }}</td>
+                {% endfor %}
+                <td>{{ alternative.weight }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>c. Ranking</h2>
+    <ol>
+        {% for alternative in ranked_alternatives %}
+        <li>{{ alternative.name }}</li>
+        {% endfor %}
+    </ol>
+</body>
+</html>

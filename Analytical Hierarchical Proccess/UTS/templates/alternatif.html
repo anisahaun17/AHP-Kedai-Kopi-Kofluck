@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Alternatives</title>
+</head>
+<body>    
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('kriteria') }}">Manage Criteria</a></li>
+            <li><a href="{{ url_for('bobotkriteria') }}">Bobot Kriteria</a></li>
+            <li><a href="{{ url_for('alternatif') }}">Alternatif</a></li>
+            <li><a href="{{ url_for('bobotalternatif') }}">Bobot Alternatif</a></li>
+        </ul>
+    </nav>
+
+    <h1>Manage Alternatives</h1>
+    
+    <h2>Add New Alternative</h2>
+    <form action="{{ url_for('add_alternative') }}" method="post">
+        <input type="text" name="name" placeholder="Alternative Name">
+        <button type="submit">Add</button>
+    </form>    
+    
+    <h2>Existing Alternatives</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for alternative in alternatives %}
+            <tr>
+                <td>{{ alternative.id }}</td>
+                <td>{{ alternative.name }}</td>
+                <td>
+                    <form action="{{ url_for('delete_alternative', id=alternative.id) }}" method="post">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>    
+</body>
+</html>
